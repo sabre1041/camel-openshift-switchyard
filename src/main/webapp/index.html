@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/camel-openshift-switchyard.js"></script>
+<title>Camel OpenShift - SwitchYard</title>
+</head>
+<body>
+
+<div>
+<form id="camelopenshiftform">
+	OpenShift User Name: <input type="text" placeholder="OpenShift UserName" id="openshiftusername" autocomplete="off" autofocus="autofocus" size="35"><br/>
+	OpenShift Password: <input type="password" placeholder="OpenShift Password" id="openshiftpassword" autocomplete="off">
+
+	<br/><br/>
+	<input type="radio" name="operation" value="applicationstatus" id="applicationstatus" checked>Start Applications<br>
+	<input type="radio" name="operation" value="operation" id="operation">OpenShift Operations
+	
+
+<br/><br/>
+<div id="opsDiv" style="display:none">
+
+Select Action:<br/>
+	<input type="radio" name="opsaction" value="user" id="openshiftuser">Show User<br/>
+	<input type="radio" name="opsaction" value="domains" id="openshiftdomains">Show Domains<br/>
+	<input type="radio" name="opsaction" value="applications" id="openshiftapplications">Show Applications<br/>
+	<div id="applicationsDomainDiv" style="display:none">
+		Domain : <input type="text" placeholder="Domain Name" id="applicationdomain" autocomplete="off">
+	</div>
+
+
+</div>
+
+<input type="submit" value="Submit" id="submitform">
+</form>	
+<br/>
+<div id="responseContainer"/>
+
+</div>
+
+</body>
+</html>

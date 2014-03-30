@@ -1,0 +1,3 @@
+<jboss-web>
+	<context-root>camel-openshift-switchyard</context-root>
+</jboss-web>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<routes xmlns="http://camel.apache.org/schema/spring">
+	<route>
+		<from uri="switchyard://OpenShiftRoutingService" />
+		<choice>
+			<when>
+				<description>Set Header values based on System Properties if value is not present</description>
+				<simple>${header.OpenShiftUserName} == null || ${header.OpenShiftPassword} == null</simple>
+				<setHeader headerName="OpenShiftUserName">
+					<constant>{{openshift.user}}</constant>
+				</setHeader>
+				<setHeader headerName="OpenShiftPassword">
+					<constant>{{openshift.password}}</constant>
+				</setHeader>
+			</when>
+		</choice>
+		<filter>
+			<description>Filter out Messages with no Credentials Specified</description>
+			<simple>${header.OpenShiftUserName} == 'user' || ${header.OpenShiftPassword} == 'password'</simple>
+			<log message="Default Credentials Present. Stopping Route" />
+			<stop/>
+		</filter>
+		<to uri="openshift://user" />
+		<bean ref="ApplicationMetrics" method="collectApplications">
+			<description>Combine all Applications associated with a given user and add the current Gear status to a header property</description>
+		</bean>
+		<split parallelProcessing="true" strategyRef="scheduledAggregator"
+			timeout="360000">
+			<description>Process each application concurrently</description>
+			<simple>${body}</simple>	
+			<bean ref="ApplicationMetrics" method="checkStatus">
+				<description>Checks the status of the Application</description>
+			</bean>
+			<choice>
+				<when>
+					<description>No action required for started applications</description>
+					<simple>${header.gearState} == 'STARTED'</simple>
+					<log message="Application ${body.name} is Started" />
+				</when>
+				<otherwise>
+					<description>Attempt to start a non-started application</description>
+					<log
+						message="Application ${body.name} is ${header.gearState}. Attempting to start" />
+					<recipientList>
+						<simple>openshift://application/${body.uUID}/start</simple>
+					</recipientList>
+				</otherwise>
+			</choice>
+		</split>
+	</route>
+</routes>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:bean="urn:switchyard-component-bean:config:1.1" xmlns:camel="urn:switchyard-component-camel:config:1.1" xmlns:quartz="urn:switchyard-component-camel-quartz:config:1.1" xmlns:resteasy="urn:switchyard-component-resteasy:config:1.1" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sy="urn:switchyard-config:switchyard:1.1" name="camel-openshift-switchyard" targetNamespace="urn:com.andyserver.switchyard:camel-openshift-switchyard:1.0">
+  <sca:composite name="camel-openshift-switchyard" targetNamespace="urn:com.andyserver.switchyard:camel-openshift-switchyard:1.0">
+    <sca:component name="OpenShiftRoute">
+      <camel:implementation.camel>
+        <camel:xml path="route.xml"/>
+      </camel:implementation.camel>
+      <sca:service name="OpenShiftRoutingService">
+        <sca:interface.java interface="com.andyserver.switchyard.camel.openshift.OpenShiftXMLRoutingService"/>
+      </sca:service>
+      <sca:property value="user" name="openshift.user"/>
+      <sca:property value="password" name="openshift.password"/>
+    </sca:component>
+    <sca:service name="OpenShiftRoutingService" promote="OpenShiftRoute/OpenShiftRoutingService">
+      <sca:interface.java interface="com.andyserver.switchyard.camel.openshift.OpenShiftXMLRoutingService"/>
+      <quartz:binding.quartz name="camel-openshift-switchyard">
+        <quartz:name>camel-openshift-switchyard</quartz:name>
+        <quartz:cron>0 0/60 * * * ?</quartz:cron>
+      </quartz:binding.quartz>
+      <resteasy:binding.rest name="rest-binding">
+        <resteasy:messageComposer class="com.andyserver.switchyard.camel.openshift.ScheduledOpenShiftRestEasyMessageComposer"/>
+        <resteasy:interfaces>com.andyserver.switchyard.camel.openshift.rest.ScheduledServiceResource</resteasy:interfaces>
+        <resteasy:contextPath>rest</resteasy:contextPath>
+      </resteasy:binding.rest>
+    </sca:service>
+    <sca:component name="OpenShiftJavaRoutingServiceImpl">
+      <camel:implementation.camel>
+        <camel:java class="com.andyserver.switchyard.camel.openshift.OpenShiftJavaRoutingServiceImpl"/>
+      </camel:implementation.camel>
+      <sca:service name="OpenShiftJavaRoutingService">
+        <sca:interface.java interface="com.andyserver.switchyard.camel.openshift.OpenShiftJavaRoutingService"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="OpenShiftJavaRoutingService" promote="OpenShiftJavaRoutingServiceImpl/OpenShiftJavaRoutingService">
+      <sca:interface.java interface="com.andyserver.switchyard.camel.openshift.OpenShiftJavaRoutingService"/>
+      <resteasy:binding.rest name="rest1">
+        <resteasy:messageComposer class="com.andyserver.switchyard.camel.openshift.OpenShiftRestEasyMessageComposer"/>
+        <resteasy:interfaces>com.andyserver.switchyard.camel.openshift.rest.OpenShiftResource</resteasy:interfaces>
+        <resteasy:contextPath>rest</resteasy:contextPath>
+      </resteasy:binding.rest>
+    </sca:service>
+  </sca:composite>
+</sy:switchyard>

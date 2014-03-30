@@ -25,7 +25,7 @@ $(function() {
 				
 				// Configure Request
 				if($('input[name=operation]:checked', '#camelopenshiftform').val() == "applicationstatus") {
-					url = "/rest/scheduled/appstatus";
+					url = "/rest/applicationsstartup/appstatus";
 					
 					successFunction = function(data) {
 						$(data).find("application").each(function() {

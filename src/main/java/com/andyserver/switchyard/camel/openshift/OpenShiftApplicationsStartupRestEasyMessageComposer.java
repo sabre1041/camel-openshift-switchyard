@@ -13,7 +13,7 @@ import org.switchyard.component.resteasy.composer.RESTEasyMessageComposer;
 import com.openshift.client.InvalidCredentialsOpenShiftException;
 
 
-public class ScheduledOpenShiftRestEasyMessageComposer extends RESTEasyMessageComposer {
+public class OpenShiftApplicationsStartupRestEasyMessageComposer extends RESTEasyMessageComposer {
 	
     @Override
     public Message compose(RESTEasyBindingData source, Exchange exchange) throws Exception {

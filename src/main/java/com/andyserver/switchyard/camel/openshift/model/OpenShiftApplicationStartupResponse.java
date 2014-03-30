@@ -3,7 +3,7 @@ package com.andyserver.switchyard.camel.openshift.model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="appstatus")
-public class ScheduledApplicationResponse {
+public class OpenShiftApplicationStartupResponse {
 	
 	private String name;
 	private String initialState;

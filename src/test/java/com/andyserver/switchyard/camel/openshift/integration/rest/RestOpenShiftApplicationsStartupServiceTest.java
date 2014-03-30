@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.switchyard.component.test.mixins.cdi.CDIMixIn;
 import org.switchyard.component.test.mixins.http.HTTPMixIn;
 import org.switchyard.test.BeforeDeploy;
-import org.switchyard.test.Invoker;
-import org.switchyard.test.ServiceOperation;
 import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.mixins.PropertyMixIn;
@@ -16,11 +14,9 @@ import org.switchyard.test.mixins.PropertyMixIn;
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = SwitchYardTestCaseConfig.SWITCHYARD_XML, mixins = {
 		CDIMixIn.class, HTTPMixIn.class, PropertyMixIn.class })
-public class OpenShiftRestRoutingServiceTest {
+public class RestOpenShiftApplicationsStartupServiceTest {
 
 	private HTTPMixIn httpMixIn;
-	@ServiceOperation("OpenShiftRoutingService")
-	private Invoker service;
 	
 	private PropertyMixIn propMixIn;
 
@@ -47,7 +43,7 @@ public class OpenShiftRestRoutingServiceTest {
 		httpMixIn.setRequestHeader("OpenShiftUserName", OPENSHIFT_USER);
 		httpMixIn.setRequestHeader("OpenShiftPassword", OPENSHIFT_PASSWORD);
 
-		assertEquals(200,httpMixIn.sendString(BASE_URL +"/scheduled/appstatus", "", HTTPMixIn.HTTP_GET));
+		assertEquals(200,httpMixIn.sendStringAndGetStatus(BASE_URL +"/applicationsstartup/appstatus", "", HTTPMixIn.HTTP_GET));
 	}
 
 }

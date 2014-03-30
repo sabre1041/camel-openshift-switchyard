@@ -13,37 +13,47 @@ import org.switchyard.test.SwitchYardRunner;
 import org.switchyard.test.SwitchYardTestCaseConfig;
 import org.switchyard.test.mixins.PropertyMixIn;
 
-import com.andyserver.switchyard.camel.openshift.model.ScheduledApplicationsResponse;
+import com.andyserver.switchyard.camel.openshift.model.OpenShiftApplicationsStartupResponse;
 
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = SwitchYardTestCaseConfig.SWITCHYARD_XML, mixins = { CDIMixIn.class, PropertyMixIn.class })
-public class OpenShiftCamelRoutingServiceTest {
+public class OpenShiftApplicationsStartupServiceTest {
 
-	@ServiceOperation("OpenShiftRoutingService.run")
+	@ServiceOperation("OpenShiftApplicationsStartupService.run")
 	private Invoker service;
 	
 	private PropertyMixIn propMixIn;
 	
     //TODO: Configure your OpenShift username and password
-    private static final String OPENSHIFT_USERNAME = "username";
+    private static final String OPENSHIFT_USER = "username";
     private static final String OPENSHIFT_PASSWORD = "password";
 
-	
-	@BeforeDeploy
-	public void setProperties() {
-		
-		propMixIn.set("openshift.user", OPENSHIFT_USERNAME);
+    
+    @BeforeDeploy
+    public void setProperties() {        
+		propMixIn.set("openshift.user", OPENSHIFT_USER);
 		propMixIn.set("openshift.password", OPENSHIFT_PASSWORD);
-	}
 
+    }
+	
 	@Test
-	public void testRun() throws Exception {
+	public void testServiceOneWay() throws Exception {
+	
+		service.sendInOnly("Test");
+		Thread.sleep(5000);
+
+	}
+	
+	
+	@Test
+	public void testServiceResponse() throws Exception {
 	
 		Message response = service.sendInOut("Test").getContent(Message.class);
 		
-		ScheduledApplicationsResponse rsp = response.getBody(ScheduledApplicationsResponse.class);
+		OpenShiftApplicationsStartupResponse rsp = response.getBody(OpenShiftApplicationsStartupResponse.class);
 		assertNotNull(rsp);
 		System.out.println(rsp);
 	}
+
 
 }

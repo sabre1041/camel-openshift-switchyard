@@ -15,7 +15,7 @@ import org.apache.camel.component.openshift.OpenShiftDomainNotFoundException;
  * @author Andrew Block
  *
  */
-public class OpenShiftJavaRoutingServiceImpl extends RouteBuilder {
+public class OpenShiftOperationsServiceImpl extends RouteBuilder {
 
 	/**
 	 * The Camel route is configured via this method.  The from endpoint is required to be a SwitchYard service.
@@ -33,7 +33,7 @@ public class OpenShiftJavaRoutingServiceImpl extends RouteBuilder {
 			.throwException(new WebApplicationException(404));
 		
 		
-		from("switchyard://OpenShiftJavaRoutingService")
+		from("switchyard://OpenShiftOperationsService")
 		
 		// Check to see if required parameters are set
 		.choice()

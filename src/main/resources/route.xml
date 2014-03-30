@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <routes xmlns="http://camel.apache.org/schema/spring">
 	<route>
-		<from uri="switchyard://OpenShiftRoutingService" />
+		<from uri="switchyard://OpenShiftApplicationsStartupService" />
 		<choice>
 			<when>
 				<description>Set Header values based on System Properties if value is not present</description>
@@ -24,7 +24,7 @@
 		<bean ref="ApplicationMetrics" method="collectApplications">
 			<description>Combine all Applications associated with a given user and add the current Gear status to a header property</description>
 		</bean>
-		<split parallelProcessing="true" strategyRef="scheduledAggregator"
+		<split parallelProcessing="true" strategyRef="applicationsStartupAggregator"
 			timeout="360000">
 			<description>Process each application concurrently</description>
 			<simple>${body}</simple>	

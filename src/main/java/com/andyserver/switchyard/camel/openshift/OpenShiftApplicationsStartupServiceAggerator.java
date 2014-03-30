@@ -6,19 +6,19 @@ import javax.inject.Named;
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 
-import com.andyserver.switchyard.camel.openshift.model.ScheduledApplicationResponse;
-import com.andyserver.switchyard.camel.openshift.model.ScheduledApplicationsResponse;
+import com.andyserver.switchyard.camel.openshift.model.OpenShiftApplicationStartupResponse;
+import com.andyserver.switchyard.camel.openshift.model.OpenShiftApplicationsStartupResponse;
 import com.openshift.client.IApplication;
 
 /**
  * Aggregates messages representing an OpenShift application after they have been split to attempt to restart the application
- * Creates a {@link ScheduledApplicationsResponse} object as a response
+ * Creates a {@link OpenShiftApplicationsStartupResponse} object as a response
  * 
  * @author Andrew Block
  *
  */
-@Named("scheduledAggregator")
-public class ScheduledApplicationServiceAggerator implements AggregationStrategy {
+@Named("applicationsStartupAggregator")
+public class OpenShiftApplicationsStartupServiceAggerator implements AggregationStrategy {
 
 	@Inject
 	ApplicationMetricsBean appStatusBean;
@@ -29,9 +29,9 @@ public class ScheduledApplicationServiceAggerator implements AggregationStrategy
 		if(oldExchange == null) {
 			
 			
-			ScheduledApplicationsResponse response = new ScheduledApplicationsResponse();
+			OpenShiftApplicationsStartupResponse response = new OpenShiftApplicationsStartupResponse();
 			
-			ScheduledApplicationResponse appResponse = process(newExchange);
+			OpenShiftApplicationStartupResponse appResponse = process(newExchange);
 
 			response.getApplications().add(appResponse);
 			
@@ -40,9 +40,9 @@ public class ScheduledApplicationServiceAggerator implements AggregationStrategy
 			return newExchange;
 		}
 		
-		ScheduledApplicationsResponse response = (ScheduledApplicationsResponse) oldExchange.getIn().getBody();
+		OpenShiftApplicationsStartupResponse response = (OpenShiftApplicationsStartupResponse) oldExchange.getIn().getBody();
 		
-		ScheduledApplicationResponse appResponse = process(newExchange);
+		OpenShiftApplicationStartupResponse appResponse = process(newExchange);
 
 		response.getApplications().add(appResponse);
 		
@@ -53,14 +53,14 @@ public class ScheduledApplicationServiceAggerator implements AggregationStrategy
 	}
 	
 	/**
-	 * Creates a {@link ScheduledApplicationsResponse} object based on the state of an OpenShift application
+	 * Creates a {@link OpenShiftApplicationsStartupResponse} object based on the state of an OpenShift application
 	 * 
 	 * @param exchange the Camel exchange
-	 * @return the {@link ScheduledApplicationsResponse} object
+	 * @return the {@link OpenShiftApplicationsStartupResponse} object
 	 */
-	private ScheduledApplicationResponse process(Exchange exchange) {
+	private OpenShiftApplicationStartupResponse process(Exchange exchange) {
 		IApplication app = exchange.getIn().getBody(IApplication.class);
-		ScheduledApplicationResponse appResponse = new ScheduledApplicationResponse();
+		OpenShiftApplicationStartupResponse appResponse = new OpenShiftApplicationStartupResponse();
 		appResponse.setName(app.getName());
 		appResponse.setInitialState((String) exchange.getIn().getHeader("gearState"));
 

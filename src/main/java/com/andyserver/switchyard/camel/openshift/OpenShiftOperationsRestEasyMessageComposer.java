@@ -29,7 +29,7 @@ import com.openshift.client.InvalidCredentialsOpenShiftException;
  * @author Andrew Block
  *
  */
-public class OpenShiftRestEasyMessageComposer extends RESTEasyMessageComposer {
+public class OpenShiftOperationsRestEasyMessageComposer extends RESTEasyMessageComposer {
 	
     @Override
     public Message compose(RESTEasyBindingData source, Exchange exchange) throws Exception {

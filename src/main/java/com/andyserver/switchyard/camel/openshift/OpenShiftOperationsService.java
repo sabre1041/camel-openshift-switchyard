@@ -12,7 +12,7 @@ import com.openshift.client.IUser;
  * @author Andrew Block
  *
  */
-public interface OpenShiftJavaRoutingService {
+public interface OpenShiftOperationsService {
 	
 	public IUser getUser();
 	

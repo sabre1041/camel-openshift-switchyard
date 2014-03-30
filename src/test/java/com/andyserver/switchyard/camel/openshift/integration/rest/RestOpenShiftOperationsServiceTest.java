@@ -20,7 +20,7 @@ import org.switchyard.transform.config.model.TransformSwitchYardScanner;
 @RunWith(SwitchYardRunner.class)
 @SwitchYardTestCaseConfig(config = SwitchYardTestCaseConfig.SWITCHYARD_XML, mixins = {
 		CDIMixIn.class, HTTPMixIn.class, PropertyMixIn.class }, scanners = { BeanSwitchYardScanner.class, TransformSwitchYardScanner.class })
-public class OpenShiftJavaRoutingServiceTest {
+public class RestOpenShiftOperationsServiceTest {
 
 	private HTTPMixIn httpMixIn;
 	@ServiceOperation("OpenShiftJavaRoutingService")

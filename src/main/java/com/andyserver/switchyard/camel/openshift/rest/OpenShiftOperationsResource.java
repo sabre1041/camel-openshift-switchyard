@@ -16,7 +16,7 @@ import com.andyserver.switchyard.camel.openshift.model.OpenShiftApplication;
  *
  */
 @Path("operation")
-public interface OpenShiftResource {
+public interface OpenShiftOperationsResource {
 	
 	@GET
 	@Path("user")

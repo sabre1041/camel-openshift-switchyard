@@ -11,17 +11,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="openshiftstatus")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ScheduledApplicationsResponse {
+public class OpenShiftApplicationsStartupResponse {
 	
 	@XmlElementWrapper(name="applications")
 	@XmlElement(name="application")
-	private List<ScheduledApplicationResponse> applications = new ArrayList<ScheduledApplicationResponse>();;
+	private List<OpenShiftApplicationStartupResponse> applications = new ArrayList<OpenShiftApplicationStartupResponse>();;
 
-	public List<ScheduledApplicationResponse> getApplications() {
+	public List<OpenShiftApplicationStartupResponse> getApplications() {
 		return applications;
 	}
 
-	public void setApplications(List<ScheduledApplicationResponse> applications) {
+	public void setApplications(List<OpenShiftApplicationStartupResponse> applications) {
 		this.applications = applications;
 	}
 

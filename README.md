@@ -91,8 +91,13 @@ Integration tests are available to demonstrate how to test SwitchYard components
 
 The project can be seemlessly deployed to the OpenShift platform
 
-1. Create a new application
-	2. Add a custom cartridge: [http://cartridge-switchyard.rhcloud.com/manifest/466c7020661420c4604e870802fe673244861a5a](http://cartridge-switchyard.rhcloud.com/manifest/466c7020661420c4604e870802fe673244861a5a)
-	3. Select an application name
-	4. Source code: [https://github.com/sabre1041/camel-openshift-switchyard.git](https://github.com/sabre1041/camel-openshift-switchyard.git)
-
+1. Create a new application:
+`rhc app create <app-name> "http://cartridge-switchyard.rhcloud.com/manifest/466c7020661420c4604e870802fe673244861a5a"` 
+2. Change Directory into newly created Application repository:
+    `cd <app_name>`
+3. Add Upstream Repository:
+`git remote add upstream -m master https://github.com/sabre1041/camel-openshift-switchyard.git`
+4. Merge into OpenShift Repository:
+`git pull -s recursive -X theirs upstream master`
+5. Push changes to OpenShift:
+`git push origin master`
